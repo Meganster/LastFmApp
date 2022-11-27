@@ -6,17 +6,17 @@
 
     <fragment
         android:id="@+id/favoriteAlbumFragment"
-        android:name="dadoufi.musicmanager.ui.album.favorite.FavoriteAlbumFragment"
+        android:name="com.appsfactory.testtask.ui.album.FavoriteAlbumsFragment"
         android:label="FavoriteAlbumFragment"
         >
-        <action
-            android:id="@+id/action_show_search_fragment"
-            app:destination="@id/searchArtistFragment"
-            />
-        <action
-            android:id="@+id/action_show_album_details_fragment"
-            app:destination="@+id/albumDetailsFragment"
-            />
+        <!--        <action-->
+        <!--            android:id="@+id/action_show_search_fragment"-->
+        <!--            app:destination="@id/searchArtistFragment"-->
+        <!--            />-->
+        <!--        <action-->
+        <!--            android:id="@+id/action_show_album_details_fragment"-->
+        <!--            app:destination="@+id/albumDetailsFragment"-->
+        <!--            />-->
     </fragment>
 
 </navigation>

@@ -7,9 +7,9 @@ import com.appsfactory.testtask.App
 import com.appsfactory.testtask.BuildConfig
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import java.io.File
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 class AppModule {
@@ -18,7 +18,7 @@ class AppModule {
     fun provideContext(application: App): Context = application.applicationContext
 
     @Provides
-    @Singleton
+    @Reusable
     @Named("cache")
     fun provideCacheDir(application: App): File = application.cacheDir
 
@@ -31,7 +31,7 @@ class AppModule {
     fun provideLastFmBaseUrl(): String = BuildConfig.LASTFM_BASE_URL
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideAppPreferences(application: App): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(application)
     }

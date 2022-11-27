@@ -4,10 +4,7 @@ import com.appsfactory.testtask.data.dto.SearchArtistResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-/**
- * REST API access points
- */
-interface LastFmService {
+interface LastFmServiceApi {
 
     @GET("?method=artist.search")
     suspend fun searchArtist(@Query("artist") artistQuery: String? = "", @Query("page") page: Int = 1): SearchArtistResponse

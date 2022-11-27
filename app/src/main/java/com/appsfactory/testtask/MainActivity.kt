@@ -1,17 +1,15 @@
 package com.appsfactory.testtask
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.Navigation.findNavController
-import com.appsfactory.testtask.ui.main.MainFragment
+import androidx.navigation.findNavController
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
     }
 
-    override fun onSupportNavigateUp() = findNavController(R.id.my_nav_host_fragment).navigateUp()
+    override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
 }
