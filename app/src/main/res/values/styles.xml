@@ -13,13 +13,11 @@
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
 
-        <item name="colorControlActivated">?colorPrimary</item>
         <item name="toolbarStyle">@style/Widget.Toolbar</item>
 
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/white_transparent</item>
 
-        <item name="android:navigationBarColor">@color/indigo_transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="android:textColorTertiary">@color/text_color_tertiary</item>

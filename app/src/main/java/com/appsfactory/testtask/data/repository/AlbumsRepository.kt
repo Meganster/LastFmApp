@@ -2,7 +2,6 @@ package com.appsfactory.testtask.data.repository
 
 import com.appsfactory.testtask.data.LastFmServiceApi
 import com.appsfactory.testtask.data.dto.FavoriteAlbumsResponse
-import com.appsfactory.testtask.data.dto.SearchArtistResponse
 import com.appsfactory.testtask.domain.model.Album
 import javax.inject.Inject
 
@@ -21,9 +20,5 @@ class AlbumsRepository @Inject constructor(
                 Album("sxcms", "2", "123", "null", "Mrs.")
             )
         )
-    }
-
-    suspend fun searchArtist(page: Int): SearchArtistResponse {
-        return serviceApi.searchArtist("bones", page)
     }
 }

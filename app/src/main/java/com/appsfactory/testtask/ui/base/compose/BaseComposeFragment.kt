@@ -5,6 +5,7 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.Factory
+import androidx.navigation.fragment.findNavController
 import com.appsfactory.testtask.utils.getValue
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.launch
@@ -36,4 +37,6 @@ abstract class BaseComposeFragment<
             }
         }
     }
+
+    fun navController() = findNavController()
 }

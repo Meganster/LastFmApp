@@ -33,6 +33,7 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        viewBinding true
         compose true
     }
     composeOptions {
@@ -72,6 +73,7 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${versions.androidx.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:${versions.androidx.lifecycle}"
 
     implementation "androidx.databinding:viewbinding:${versions.view_binding}"
     kapt "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycle}"
@@ -100,6 +102,8 @@ dependencies {
     implementation "androidx.room:room-runtime:${versions.androidx.room}"
     kapt "androidx.room:room-compiler:${versions.androidx.room}"
 
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 
     androidTestImplementation "androidx.room:room-runtime:${versions.androidx.room}"
 

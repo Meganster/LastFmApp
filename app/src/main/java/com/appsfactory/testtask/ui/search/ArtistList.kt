@@ -1,4 +1,4 @@
-package com.appsfactory.testtask.ui.album
+package com.appsfactory.testtask.ui.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,20 +18,18 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.appsfactory.testtask.domain.model.Album
+import com.appsfactory.testtask.data.dto.ArtistDto
 
 @Composable
-fun AlbumsList(items: LazyPagingItems<Album>) {
+fun ArtistList(items: LazyPagingItems<ArtistDto>) {
     LazyColumn {
         items(items) { item ->
-            item?.let { AlbumCard(album = it) }
+            item?.let { ArtistCard(artistDto = it) }
         }
 
         when (items.loadState.append) {
@@ -50,15 +48,13 @@ fun AlbumsList(items: LazyPagingItems<Album>) {
 
         when (items.loadState.refresh) {
             is LoadState.NotLoading -> Unit
-            is LoadState.Loading -> {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+            is LoadState.Loading -> item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Center
+                ) {
+                    CircularProgressIndicator()
                 }
             }
             is LoadState.Error -> {
@@ -69,13 +65,13 @@ fun AlbumsList(items: LazyPagingItems<Album>) {
 }
 
 @Composable
-fun AlbumCard(album: Album) {
+fun ArtistCard(artistDto: ArtistDto) {
     Card(
-        elevation = 4.dp,
         modifier = Modifier
             .padding(6.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
+        elevation = 4.dp
     ) {
         Row(
             modifier = Modifier
@@ -83,11 +79,11 @@ fun AlbumCard(album: Album) {
                 .padding(8.dp)
         ) {
             Text(
-                text = album.name,
-                fontSize = 24.sp,
                 modifier = Modifier
                     .padding(start = 12.dp)
-                    .align(CenterVertically)
+                    .align(CenterVertically),
+                text = artistDto.name,
+                fontSize = 24.sp
             )
         }
     }
@@ -115,11 +111,11 @@ fun LoadingItem() {
 @Composable
 fun ErrorItem(message: String) {
     Card(
-        elevation = 2.dp,
         modifier = Modifier
             .padding(6.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
+        elevation = 2.dp
     ) {
         Row(
             modifier = Modifier
@@ -128,19 +124,13 @@ fun ErrorItem(message: String) {
                 .padding(8.dp)
         ) {
             Text(
-                color = Color.White,
-                text = message,
-                fontSize = 16.sp,
                 modifier = Modifier
                     .padding(start = 12.dp)
-                    .align(CenterVertically)
+                    .align(CenterVertically),
+                color = Color.White,
+                text = message,
+                fontSize = 16.sp
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun UserPreview() {
-    AlbumCard(album = Album("Belal", "1", "Khan", "null", "Mr."))
 }

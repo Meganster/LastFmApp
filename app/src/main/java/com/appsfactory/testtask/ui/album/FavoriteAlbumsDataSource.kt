@@ -6,7 +6,8 @@ import com.appsfactory.testtask.data.repository.AlbumsRepository
 import com.appsfactory.testtask.domain.model.Album
 
 class FavoriteAlbumsDataSource(
-    private val albumsRepository: AlbumsRepository
+    private val albumsRepository: AlbumsRepository,
+    private val itemsPerPage: Int
 ) : PagingSource<Int, Album>() {
 
     override fun getRefreshKey(state: PagingState<Int, Album>): Int? {
@@ -19,7 +20,7 @@ class FavoriteAlbumsDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Album> {
         return try {
             val page = params.key ?: 1
-            val response = albumsRepository.getFavoriteAlbums(page, 10)
+            val response = albumsRepository.getFavoriteAlbums(page, itemsPerPage)
 
             LoadResult.Page(
                 data = response.albums,

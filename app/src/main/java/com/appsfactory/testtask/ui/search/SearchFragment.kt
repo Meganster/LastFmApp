@@ -1,4 +1,4 @@
-package com.appsfactory.testtask.ui.album
+package com.appsfactory.testtask.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,27 +9,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.appsfactory.testtask.R
 import com.appsfactory.testtask.ui.base.compose.BaseComposeFragment
-import kotlinx.coroutines.launch
 
-class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
+class SearchFragment : BaseComposeFragment<SearchViewModel>() {
 
-    override val classType = FavoriteAlbumsViewModel::class.java
+    override val classType = SearchViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -51,23 +45,16 @@ class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
                         modifier = Modifier
                             .fillMaxSize()
                             .background(MaterialTheme.colors.background)
-                            .padding(it),
+                            .padding(it)
                     ) {
-                        Button(
+                        SearchCell(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp),
-                            onClick = { viewModel.onSearchButtonClicked() },
-                            content = {
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    text = stringResource(R.string.search_artist_button),
-                                    textAlign = TextAlign.Center
-                                )
-                            }
+                                .padding(vertical = 16.dp),
+                            searchValue = viewModel.searchState,
+                            onSearchChanged = viewModel::onSearchChanged
                         )
-                        AlbumsList(viewModel.favoriteAlbumsPager.collectAsLazyPagingItems())
+                        ArtistList(viewModel.artistsPager.collectAsLazyPagingItems())
                     }
                 }
             }
@@ -76,10 +63,10 @@ class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
 
     @Composable
     private fun initObservers() {
-        viewModel.navigation.Handler {
-            launch {
-                navController().navigate(R.id.action_show_search_fragment)
-            }
-        }
+        //        viewModel.navigation.Handler {
+        //            launch {
+        //                navController().act
+        //            }
+        //        }
     }
 }

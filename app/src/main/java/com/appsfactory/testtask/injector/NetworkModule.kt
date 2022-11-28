@@ -1,8 +1,10 @@
 package com.appsfactory.testtask.injector
 
+import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.appsfactory.testtask.data.LastFmInterceptor
 import com.appsfactory.testtask.data.LastFmServiceApi
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -40,10 +42,12 @@ class NetworkModule {
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         lastFmInterceptor: LastFmInterceptor,
+        context: Context,
         @Named("cache") cache: File
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(lastFmInterceptor)
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(ChuckerInterceptor(context))
         .cache(Cache(cache, 10 * 1024 * 1024))
         .build()
 
