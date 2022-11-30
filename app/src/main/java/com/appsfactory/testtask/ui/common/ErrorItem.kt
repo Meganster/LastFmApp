@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.appsfactory.testtask.R
 
 @Composable
 fun ErrorItem(message: String) {
@@ -26,7 +28,7 @@ fun ErrorItem(message: String) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Red)
+                .background(colorResource(R.color.red))
                 .padding(8.dp)
         ) {
             Text(

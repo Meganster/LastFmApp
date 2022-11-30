@@ -4,10 +4,13 @@ import com.appsfactory.testtask.App
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
+        DatabaseModule::class,
         ViewModelFactoryModule::class,
         NetworkModule::class,
         AppModule::class,

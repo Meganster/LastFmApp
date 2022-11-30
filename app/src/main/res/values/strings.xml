@@ -3,8 +3,24 @@
 
     <string name="splash_screen_title">Appsfactory\n\nTest Task</string>
     <string name="something_went_wrong">Something went wrong</string>
+
+    <string name="favorite_albums_title">Favorite albums</string>
+
+    <string name="search_artist_title">Artists</string>
     <string name="search_artist_button">Search artist</string>
+    <string name="search_button">Search button</string>
+    <string name="search_placeholder">Start search artist…</string>
 
     <string name="artist_image_description">Image of %s</string>
+
+    <string name="top_albums_title">Albums of %s</string>
+    <string name="top_albums_start_processing">Start processing %s</string>
+    <string name="top_albums_delete_completed">Delete completed for %s</string>
+    <string name="top_albums_saving_completed">Saving completed for %s</string>
+
+    <string name="detail_album_title">Details of %s</string>
+    <string name="detail_tracks">Tracks:</string>
+    <string name="detail_listeners">Listeners: %s</string>
+    <string name="detail_artist">Artist: %s</string>
 
 </resources>

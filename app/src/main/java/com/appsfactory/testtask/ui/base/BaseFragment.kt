@@ -41,7 +41,7 @@ abstract class BaseFragment<
     private fun initObserveSnackBar() {
         viewModel.showSnackbar.observe(viewLifecycleOwner) {
             it.take()?.let { snackbarMessage ->
-                binding.root.makeSnackbar(snackbarMessage.getValue(requireContext()), true).show()
+                binding.root.makeSnackbar(snackbarMessage.getValue(requireContext())).show()
             }
         }
     }

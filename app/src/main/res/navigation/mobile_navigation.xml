@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/screenFavoriteAlbums"
-        android:name="com.appsfactory.testtask.ui.album.favorites.FavoriteAlbumsFragment"
+        android:name="com.appsfactory.testtask.ui.album.favorite.FavoriteAlbumsFragment"
         android:label="screenFavoriteAlbums"
         >
         <action
@@ -61,7 +61,7 @@
             />
         <argument
             android:name="artist"
-            app:argType="com.appsfactory.testtask.data.dto.ArtistDto"
+            app:argType="com.appsfactory.testtask.domain.model.Artist"
             />
     </fragment>
 
@@ -71,8 +71,8 @@
         android:label="screenAlbumDetails"
         >
         <argument
-            android:name="album"
-            app:argType="com.appsfactory.testtask.domain.model.Album"
+            android:name="detailsAlbum"
+            app:argType="com.appsfactory.testtask.domain.model.DetailsAlbum"
             />
     </fragment>
 

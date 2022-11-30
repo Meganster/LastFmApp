@@ -2,11 +2,11 @@ package com.appsfactory.testtask.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class TopAlbumResponse(
-    @SerializedName("topalbums")
-    val topAlbums: TopAlbums,
+data class AlbumDetailsResponse(
+    @SerializedName("album")
+    val detailsAlbum: DetailsAlbumDto,
     @SerializedName("error")
-    override val error: Int?,
+    override val error: Int,
     @SerializedName("message")
-    override val message: String?
+    override val message: String
 ) : ApiError

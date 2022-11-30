@@ -14,9 +14,7 @@ import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
 
-class SplashViewModel @Inject constructor(
-    private val authRepository: ArtistsRepository
-) : BaseViewModel() {
+class SplashViewModel @Inject constructor() : BaseViewModel() {
 
     private val _isAuthSucceeded = MutableLiveData<Event<Unit>>()
     val isAuthSucceeded: LiveData<Event<Unit>> = _isAuthSucceeded
@@ -29,7 +27,7 @@ class SplashViewModel @Inject constructor(
 
     fun completeAuth() {
         defaultScope.launch {
-//            delay(1000) // TODO maybe here should be getMobileSession
+            delay(100) // TODO maybe here should be getMobileSession
             _isAuthSucceeded.value = Event(Unit)
         }
     }

@@ -4,44 +4,61 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.appsfactory.testtask.R
-import com.appsfactory.testtask.data.dto.ArtistDto
-import com.appsfactory.testtask.data.repository.ArtistsRepository
+import com.appsfactory.testtask.R.string
+import com.appsfactory.testtask.domain.artist.ArtistsInteractor
+import com.appsfactory.testtask.domain.model.Artist
 import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SearchViewModel @Inject constructor(
-    private val artistsRepository: ArtistsRepository
+    private val artistsInteractor: ArtistsInteractor
 ) : BaseComposeViewModel() {
 
-    val navigation = Effect<ArtistDto>()
+    private val defaultExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Timber.e(throwable, "Error when loading SearchViewModel")
+        showSnackbar(string.something_went_wrong)
+    }
+    private val defaultScope = viewModelScope + defaultExceptionHandler
+
+    private val artistLiveData = MutableLiveData("")
+
+    val navigation = Effect<Artist>()
 
     var searchState by mutableStateOf(
         TextFieldValue("")
     )
 
-    val artistsPager = Pager(PagingConfig(pageSize = 10)) {
-        ArtistsDataSource(artistsRepository)
-    }
-        .flow
-        .cachedIn(viewModelScope)
+    val artists = artistLiveData
+        .asFlow()
+        .flatMapLatest {
+            artistsInteractor.searchArtist(it, DEFAULT_PAGE_SIZE)
+        }
+        .cachedIn(defaultScope)
 
     fun onSearchChanged(searchValue: TextFieldValue) {
         searchState = searchValue
     }
 
-    fun onArtistClicked(artistDto: ArtistDto) {
-        navigation.set(artistDto)
+    fun onStartSearchClicked() {
+        artistLiveData.value = searchState.text
     }
 
-    fun onErrorHappened(error: Throwable) {
-        Timber.e(error)
-        showSnackbar(R.string.something_went_wrong)
+    fun onArtistClicked(artist: Artist) {
+        navigation.set(artist)
+    }
+
+    companion object {
+        const val DEFAULT_PAGE_SIZE = 10
     }
 }

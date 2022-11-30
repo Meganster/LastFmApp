@@ -3,8 +3,8 @@ package com.appsfactory.testtask.injector
 import androidx.lifecycle.ViewModel
 import com.appsfactory.testtask.ui.album.details.DetailsFragment
 import com.appsfactory.testtask.ui.album.details.DetailsViewModel
-import com.appsfactory.testtask.ui.album.favorites.FavoriteAlbumsFragment
-import com.appsfactory.testtask.ui.album.favorites.FavoriteAlbumsViewModel
+import com.appsfactory.testtask.ui.album.favorite.FavoriteAlbumsFragment
+import com.appsfactory.testtask.ui.album.favorite.FavoriteAlbumsViewModel
 import com.appsfactory.testtask.ui.album.top.TopAlbumsFragment
 import com.appsfactory.testtask.ui.album.top.TopAlbumsViewModel
 import com.appsfactory.testtask.ui.search.SearchFragment

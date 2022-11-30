@@ -1,19 +1,18 @@
 package com.appsfactory.testtask.data.dto
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class ArtistDto(
     @SerializedName("image")
-    override val image: List<ImageDto>?,
+    val image: List<ImageDto>?,
     @SerializedName("mbid")
-    val mbid: String = "",
+    val mbid: String?,
     @SerializedName("listeners")
-    val listeners: String = "",
+    val listeners: String?,
     @SerializedName("streamable")
-    val streamable: String = "",
+    val streamable: String?,
     @SerializedName("name")
-    val name: String = "",
+    val name: String?,
     @SerializedName("url")
-    val url: String = ""
-) : ImageCollection(), Serializable
+    val url: String?
+)
