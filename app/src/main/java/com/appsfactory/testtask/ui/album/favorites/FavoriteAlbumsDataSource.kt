@@ -1,4 +1,4 @@
-package com.appsfactory.testtask.ui.album
+package com.appsfactory.testtask.ui.album.favorites
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

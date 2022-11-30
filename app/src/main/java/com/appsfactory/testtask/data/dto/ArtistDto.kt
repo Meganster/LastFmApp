@@ -1,10 +1,11 @@
 package com.appsfactory.testtask.data.dto
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ArtistDto(
     @SerializedName("image")
-    override val image: List<Image>?,
+    override val image: List<ImageDto>?,
     @SerializedName("mbid")
     val mbid: String = "",
     @SerializedName("listeners")
@@ -14,7 +15,5 @@ data class ArtistDto(
     @SerializedName("name")
     val name: String = "",
     @SerializedName("url")
-    val url: String = "",
-    @Transient
-    var artistQuery: String
-) : ImageDto()
+    val url: String = ""
+) : ImageCollection(), Serializable

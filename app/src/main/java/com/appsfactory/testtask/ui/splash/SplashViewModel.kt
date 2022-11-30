@@ -29,7 +29,7 @@ class SplashViewModel @Inject constructor(
 
     fun completeAuth() {
         defaultScope.launch {
-            delay(1000) // TODO maybe here should be getMobileSession
+//            delay(1000) // TODO maybe here should be getMobileSession
             _isAuthSucceeded.value = Event(Unit)
         }
     }

@@ -1,4 +1,4 @@
-package com.appsfactory.testtask.ui.album
+package com.appsfactory.testtask.ui.album.top
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,14 +22,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.appsfactory.testtask.R
 import com.appsfactory.testtask.ui.base.compose.BaseComposeFragment
-import kotlinx.coroutines.launch
 
-class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
+class TopAlbumsFragment : BaseComposeFragment<TopAlbumsViewModel>() {
 
-    override val classType = FavoriteAlbumsViewModel::class.java
+    override val classType = TopAlbumsViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -57,7 +55,7 @@ class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
-                            onClick = { viewModel.onSearchButtonClicked() },
+                            onClick = { },
                             content = {
                                 Text(
                                     modifier = Modifier
@@ -67,7 +65,6 @@ class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
                                 )
                             }
                         )
-                        AlbumsList(viewModel.favoriteAlbumsPager.collectAsLazyPagingItems())
                     }
                 }
             }
@@ -76,10 +73,6 @@ class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
 
     @Composable
     private fun initObservers() {
-        viewModel.navigation.Handler {
-            launch {
-                navController().navigate(R.id.action_show_search_fragment)
-            }
-        }
+        // TODO
     }
 }

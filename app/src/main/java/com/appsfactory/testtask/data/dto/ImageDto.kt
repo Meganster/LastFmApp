@@ -1,12 +1,9 @@
 package com.appsfactory.testtask.data.dto
 
-// TODO rename
-abstract class ImageDto {
-    @Transient
-    open val image: List<Image>? = null
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-
-    fun findLastImage(): String? {
-        return image?.findLast { !it.text.isNullOrBlank() }?.text
-    }
-}
+data class ImageDto(
+    @SerializedName("#text") val text: String?,
+    @SerializedName("size") val size: String
+) : Serializable

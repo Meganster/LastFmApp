@@ -13,7 +13,9 @@ buildscript {
                     'recyclerview'     : '1.2.1',
                     'room'             : '2.2.0'
             ],
+            'chucker'         : '3.5.2',
             'compose'        : '1.3.0',
+            'compose_coil'   : '2.2.2',
             'compose_paging' : '1.0.0-alpha15',
             'coroutines'     : '1.6.1',
             'kotlin'         : '1.7.10',
@@ -44,8 +46,9 @@ buildscript {
         maven { url "https://jcenter.bintray.com" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath "com.android.tools.build:gradle:7.2.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.androidx.navigation}"
     }
 }
 

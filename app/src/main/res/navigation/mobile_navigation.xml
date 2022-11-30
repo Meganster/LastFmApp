@@ -25,28 +25,55 @@
 
     <fragment
         android:id="@+id/screenFavoriteAlbums"
-        android:name="com.appsfactory.testtask.ui.album.FavoriteAlbumsFragment"
-        android:label="FavoriteAlbumsFragment"
+        android:name="com.appsfactory.testtask.ui.album.favorites.FavoriteAlbumsFragment"
+        android:label="screenFavoriteAlbums"
         >
         <action
-            android:id="@+id/action_show_search_fragment"
+            android:id="@+id/action_show_search_artists"
             app:destination="@id/screenSearchArtists"
             />
 
-        <!--        <action-->
-        <!--            android:id="@+id/action_show_album_details_fragment"-->
-        <!--            app:destination="@+id/albumDetailsFragment"-->
-        <!--            />-->
+        <action
+            android:id="@+id/action_show_album_details"
+            app:destination="@+id/screenAlbumDetails"
+            />
     </fragment>
 
     <fragment
         android:id="@+id/screenSearchArtists"
         android:name="com.appsfactory.testtask.ui.search.SearchFragment"
-        android:label="SearchArtistFragment"
+        android:label="screenSearchArtists"
         >
-        <!--        <action-->
-        <!--            android:id="@+id/action_show_top_album_fragment"-->
-        <!--            app:destination="@id/topAlbumFragment"/>-->
+        <action
+            android:id="@+id/action_show_top_albums"
+            app:destination="@id/screenTopAlbums"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/screenTopAlbums"
+        android:name="com.appsfactory.testtask.ui.album.top.TopAlbumsFragment"
+        android:label="screenTopAlbums"
+        >
+        <action
+            android:id="@+id/action_show_album_details"
+            app:destination="@id/screenAlbumDetails"
+            />
+        <argument
+            android:name="artist"
+            app:argType="com.appsfactory.testtask.data.dto.ArtistDto"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/screenAlbumDetails"
+        android:name="com.appsfactory.testtask.ui.album.details.DetailsFragment"
+        android:label="screenAlbumDetails"
+        >
+        <argument
+            android:name="album"
+            app:argType="com.appsfactory.testtask.domain.model.Album"
+            />
     </fragment>
 
 </navigation>

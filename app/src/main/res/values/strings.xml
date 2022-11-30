@@ -2,8 +2,9 @@
     <string name="app_name">TestTask</string>
 
     <string name="splash_screen_title">Appsfactory\n\nTest Task</string>
-
     <string name="something_went_wrong">Something went wrong</string>
-
     <string name="search_artist_button">Search artist</string>
+
+    <string name="artist_image_description">Image of %s</string>
+
 </resources>
