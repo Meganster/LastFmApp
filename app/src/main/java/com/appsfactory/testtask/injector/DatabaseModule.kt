@@ -39,9 +39,4 @@ class DatabaseModule {
 
     @Provides
     fun provideAlbumInfoWithTracksDao(db: TestTaskDb): DetailsAlbumWithTracksDao = db.detailsAlbumWithTracksDao()
-
-    //    @Singleton
-    //    @Provides
-    //    fun provideDatabaseTransactionRunner(db: MusicManagerDb): DatabaseTransactionRunner =
-    //        RoomTransactionRunner(db)
 }
