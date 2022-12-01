@@ -1,9 +1,9 @@
-package com.appsfactory.testtask.data.repository.db.dao
+package com.appsfactory.testtask.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.appsfactory.testtask.data.repository.db.entity.DetailsAlbumWithTracksEntity
+import com.appsfactory.testtask.db.entity.DetailsAlbumWithTracksEntity
 
 @Dao
 interface DetailsAlbumWithTracksDao {

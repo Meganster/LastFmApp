@@ -1,10 +1,10 @@
-package com.appsfactory.testtask.data.repository.db.dao
+package com.appsfactory.testtask.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.appsfactory.testtask.data.repository.db.entity.TrackEntity
+import com.appsfactory.testtask.db.entity.TrackEntity
 
 @Dao
 interface TrackDao {

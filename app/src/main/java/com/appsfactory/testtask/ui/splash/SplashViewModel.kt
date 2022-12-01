@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.appsfactory.testtask.R
-import com.appsfactory.testtask.data.repository.ArtistsRepository
 import com.appsfactory.testtask.ui.base.BaseViewModel
 import com.appsfactory.testtask.utils.Event
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import timber.log.Timber
@@ -27,7 +25,8 @@ class SplashViewModel @Inject constructor() : BaseViewModel() {
 
     fun completeAuth() {
         defaultScope.launch {
-            delay(100) // TODO maybe here should be getMobileSession
+            // no need to call getMobileSession from lastFM api
+            // so just skip this fragment
             _isAuthSucceeded.value = Event(Unit)
         }
     }

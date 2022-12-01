@@ -1,4 +1,4 @@
-package com.appsfactory.testtask.data.repository.db.entity
+package com.appsfactory.testtask.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

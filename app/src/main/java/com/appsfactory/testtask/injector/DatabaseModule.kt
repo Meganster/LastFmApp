@@ -3,11 +3,11 @@ package com.appsfactory.testtask.injector
 import android.content.Context
 import android.os.Debug
 import androidx.room.Room
-import com.appsfactory.testtask.data.repository.db.TestTaskDb
-import com.appsfactory.testtask.data.repository.db.dao.ArtistDao
-import com.appsfactory.testtask.data.repository.db.dao.DetailsAlbumDao
-import com.appsfactory.testtask.data.repository.db.dao.DetailsAlbumWithTracksDao
-import com.appsfactory.testtask.data.repository.db.dao.TrackDao
+import com.appsfactory.testtask.db.TestTaskDb
+import com.appsfactory.testtask.db.dao.ArtistDao
+import com.appsfactory.testtask.db.dao.DetailsAlbumDao
+import com.appsfactory.testtask.db.dao.DetailsAlbumWithTracksDao
+import com.appsfactory.testtask.db.dao.TrackDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

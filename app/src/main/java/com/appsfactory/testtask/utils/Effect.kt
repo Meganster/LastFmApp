@@ -23,11 +23,10 @@ abstract class BaseEffect<T : Any> {
     @Composable
     fun Handler(block: CoroutineScope.(T) -> Unit) {
         val blockScope = rememberCoroutineScope()
-        // We assume reading from consumed.value is safe
         LaunchedEffect(key1 = consumed.value) {
             mutex.withLock {
                 if (consumed.value) return@LaunchedEffect
-                blockScope.block(value!!) // TODO: what if it blocks? Equality policy?
+                blockScope.block(value!!)
                 consumed.value = true
             }
         }

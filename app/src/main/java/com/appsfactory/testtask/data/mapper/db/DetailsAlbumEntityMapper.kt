@@ -1,8 +1,8 @@
 package com.appsfactory.testtask.data.mapper.db
 
-import com.appsfactory.testtask.data.repository.db.entity.ArtistEntity
-import com.appsfactory.testtask.data.repository.db.entity.DetailsAlbumEntity
-import com.appsfactory.testtask.data.repository.db.entity.TrackEntity
+import com.appsfactory.testtask.db.entity.ArtistEntity
+import com.appsfactory.testtask.db.entity.DetailsAlbumEntity
+import com.appsfactory.testtask.db.entity.TrackEntity
 import com.appsfactory.testtask.domain.model.DetailsAlbum
 
 object DetailsAlbumEntityMapper {

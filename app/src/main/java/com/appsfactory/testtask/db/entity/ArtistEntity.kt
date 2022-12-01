@@ -1,4 +1,4 @@
-package com.appsfactory.testtask.data.repository.db.entity
+package com.appsfactory.testtask.db.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

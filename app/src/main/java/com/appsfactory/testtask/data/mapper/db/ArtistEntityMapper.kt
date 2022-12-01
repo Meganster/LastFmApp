@@ -1,6 +1,6 @@
 package com.appsfactory.testtask.data.mapper.db
 
-import com.appsfactory.testtask.data.repository.db.entity.ArtistEntity
+import com.appsfactory.testtask.db.entity.ArtistEntity
 import com.appsfactory.testtask.domain.model.Artist
 
 object ArtistEntityMapper {

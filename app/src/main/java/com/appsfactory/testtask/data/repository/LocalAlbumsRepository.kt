@@ -4,11 +4,11 @@ import androidx.room.withTransaction
 import com.appsfactory.testtask.data.mapper.db.ArtistEntityMapper
 import com.appsfactory.testtask.data.mapper.db.DetailsAlbumEntityMapper
 import com.appsfactory.testtask.data.mapper.db.TrackEntityMapper
-import com.appsfactory.testtask.data.repository.db.TestTaskDb
-import com.appsfactory.testtask.data.repository.db.dao.ArtistDao
-import com.appsfactory.testtask.data.repository.db.dao.DetailsAlbumDao
-import com.appsfactory.testtask.data.repository.db.dao.DetailsAlbumWithTracksDao
-import com.appsfactory.testtask.data.repository.db.dao.TrackDao
+import com.appsfactory.testtask.db.TestTaskDb
+import com.appsfactory.testtask.db.dao.ArtistDao
+import com.appsfactory.testtask.db.dao.DetailsAlbumDao
+import com.appsfactory.testtask.db.dao.DetailsAlbumWithTracksDao
+import com.appsfactory.testtask.db.dao.TrackDao
 import com.appsfactory.testtask.domain.model.Album
 import com.appsfactory.testtask.domain.model.Artist
 import com.appsfactory.testtask.domain.model.DetailsAlbum
@@ -24,8 +24,13 @@ class LocalAlbumsRepository @Inject constructor(
     private val trackDao: TrackDao = db.trackDao()
 
     suspend fun getFavoriteAlbums(page: Int, itemsPerPage: Int): List<DetailsAlbum> {
-        // TODO apply limit and offset for db sql
-        return detailsAlbumDao.getAll().orEmpty().map {
+        val offset = if (page <= 1) {
+            0
+        } else {
+            (page - 1) * itemsPerPage
+        }
+
+        return detailsAlbumDao.getByPage(limit = itemsPerPage, offset = offset).orEmpty().map {
             val artistEntity = artistDao.getArtistsByName(it.artistName)!!
             val trackEntities = trackDao.getTracksByMid(it.mid).orEmpty()
             DetailsAlbumEntityMapper.mapToModel(it, artistEntity, trackEntities)
