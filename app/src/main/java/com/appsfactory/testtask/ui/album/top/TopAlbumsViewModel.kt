@@ -1,7 +1,5 @@
 package com.appsfactory.testtask.ui.album.top
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.appsfactory.testtask.R
@@ -13,6 +11,8 @@ import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
@@ -30,24 +30,25 @@ class TopAlbumsViewModel @Inject constructor(
     }
     private val defaultScope = viewModelScope + defaultExceptionHandler
 
-    private val artistLiveData = MutableLiveData<Artist>()
+    private val artistStateFlow = MutableStateFlow<Artist?>(null)
 
     val navigation = Effect<DetailsAlbum>()
 
-    val topAlbums = artistLiveData
-        .asFlow()
+    val topAlbums = artistStateFlow
         .flatMapLatest {
-            topAlbumsInteractor.topAlbumsArtist(it, DEFAULT_PAGE_SIZE)
+            it?.let {
+                topAlbumsInteractor.topAlbumsArtist(it, DEFAULT_PAGE_SIZE)
+            } ?: emptyFlow()
         }
         .cachedIn(defaultScope)
 
     fun loadTopAlbums(artist: Artist) {
-        artistLiveData.value = artist
+        artistStateFlow.value = artist
     }
 
     fun onAlbumClicked(album: Album) {
         defaultScope.launch {
-            val detailsAlbum = topAlbumsInteractor.loadDetailsAlbum(artistLiveData.value!!, album)
+            val detailsAlbum = topAlbumsInteractor.loadDetailsAlbum(artistStateFlow.value!!, album)
             navigation.set(detailsAlbum)
         }
     }
@@ -60,7 +61,7 @@ class TopAlbumsViewModel @Inject constructor(
                 topAlbumsInteractor.deleteDetailsAlbum(album)
                 showSnackbar(R.string.top_albums_delete_completed, album.name)
             } else {
-                topAlbumsInteractor.saveArtistAndDetailsAlbum(artistLiveData.value!!, album)
+                topAlbumsInteractor.saveArtistAndDetailsAlbum(artistStateFlow.value!!, album)
                 showSnackbar(R.string.top_albums_saving_completed, album.name)
             }
         }

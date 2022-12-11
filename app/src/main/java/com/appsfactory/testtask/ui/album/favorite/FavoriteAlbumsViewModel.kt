@@ -1,7 +1,5 @@
 package com.appsfactory.testtask.ui.album.favorite
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -14,9 +12,10 @@ import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenDetails
 import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenSearch
 import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
-import com.appsfactory.testtask.utils.Event
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
@@ -39,14 +38,15 @@ class FavoriteAlbumsViewModel @Inject constructor(
     }
     private val defaultScope = viewModelScope + defaultExceptionHandler
 
-    private val updateFavoriteAlbumsLiveData = MutableLiveData<Event<Unit>>()
+    private val updateFavoriteAlbumsStateFlow = MutableStateFlow<Unit?>(null)
 
-    val favoriteDetailsAlbum = updateFavoriteAlbumsLiveData
-        .asFlow()
+    val favoriteDetailsAlbum = updateFavoriteAlbumsStateFlow
         .flatMapLatest {
-            Pager(PagingConfig(DEFAULT_PAGE_SIZE)) {
-                FavoriteAlbumsDataSource(localAlbumsRepository, DEFAULT_PAGE_SIZE)
-            }.flow
+            it?.let {
+                Pager(PagingConfig(DEFAULT_PAGE_SIZE)) {
+                    FavoriteAlbumsDataSource(localAlbumsRepository, DEFAULT_PAGE_SIZE)
+                }.flow
+            } ?: emptyFlow()
         }
         .cachedIn(defaultScope)
 
@@ -71,7 +71,9 @@ class FavoriteAlbumsViewModel @Inject constructor(
     }
 
     fun refreshItems() {
-        updateFavoriteAlbumsLiveData.value = Event(Unit)
+        defaultScope.launch {
+            updateFavoriteAlbumsStateFlow.emit(Unit)
+        }
     }
 
     companion object {

@@ -4,8 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.appsfactory.testtask.R.string
@@ -15,14 +13,13 @@ import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class SearchViewModel @Inject constructor(
     private val artistsInteractor: ArtistsInteractor
 ) : BaseComposeViewModel() {
@@ -33,7 +30,7 @@ class SearchViewModel @Inject constructor(
     }
     private val defaultScope = viewModelScope + defaultExceptionHandler
 
-    private val artistLiveData = MutableLiveData("")
+    private val artistStateFlow = MutableStateFlow("")
 
     val navigation = Effect<Artist>()
 
@@ -41,8 +38,7 @@ class SearchViewModel @Inject constructor(
         TextFieldValue("")
     )
 
-    val artists = artistLiveData
-        .asFlow()
+    val artists = artistStateFlow
         .flatMapLatest {
             artistsInteractor.searchArtist(it, DEFAULT_PAGE_SIZE)
         }
@@ -53,7 +49,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onStartSearchClicked() {
-        artistLiveData.value = searchState.text
+        artistStateFlow.value = searchState.text
     }
 
     fun onArtistClicked(artist: Artist) {
