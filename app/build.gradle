@@ -63,7 +63,6 @@ dependencies {
     implementation "io.coil-kt:coil-compose:${versions.compose_coil}"
 
     implementation "androidx.paging:paging-compose:${versions.compose_paging}"
-    implementation "androidx.paging:paging-runtime-ktx:${versions.androidx.paging}"
 
     implementation "com.jakewharton.timber:timber:${versions.timber}"
 
@@ -82,8 +81,6 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycle}"
 
     implementation "androidx.appcompat:appcompat:${versions.androidx.appcompat}"
-    implementation "com.google.android.material:material:${versions.material_design}"
-    implementation "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}"
 
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
