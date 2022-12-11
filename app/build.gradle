@@ -57,6 +57,7 @@ android {
 dependencies {
     implementation "androidx.core:core-ktx:${versions.androidx.core_ktx}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
 
     implementation "androidx.compose.ui:ui:${versions.compose}"
     implementation "androidx.compose.material:material:${versions.compose}"
