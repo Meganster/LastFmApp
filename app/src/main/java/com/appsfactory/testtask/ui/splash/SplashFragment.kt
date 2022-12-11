@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.appsfactory.testtask.R
 import com.appsfactory.testtask.databinding.FragmentSplashBinding
 import com.appsfactory.testtask.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
+@AndroidEntryPoint
+class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     override lateinit var binding: FragmentSplashBinding
-    override val classType = SplashViewModel::class.java
+    override val viewModel: SplashViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)

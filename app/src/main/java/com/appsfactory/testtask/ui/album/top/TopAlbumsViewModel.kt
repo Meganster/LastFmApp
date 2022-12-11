@@ -9,6 +9,7 @@ import com.appsfactory.testtask.domain.model.Artist
 import com.appsfactory.testtask.domain.model.DetailsAlbum
 import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@HiltViewModel
 class TopAlbumsViewModel @Inject constructor(
     private val topAlbumsInteractor: TopAlbumsInteractor
 ) : BaseComposeViewModel() {

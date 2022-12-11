@@ -1,17 +1,13 @@
 package com.appsfactory.testtask
 
-import com.appsfactory.testtask.injector.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import androidx.viewbinding.BuildConfig
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-class App : DaggerApplication() {
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().create(this)
-    }
-
+@HiltAndroidApp
+open class App : Application() {
     override fun onCreate() {
         super.onCreate()
 

@@ -9,7 +9,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,9 +21,9 @@ import java.io.File
 import javax.inject.Named
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-    @Reusable
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         if (BuildConfig.DEBUG) {
@@ -29,20 +31,17 @@ class NetworkModule {
         }
     }
 
-    @Reusable
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()
 
-    @Reusable
     @Provides
     fun provideLastFmInterceptor(@Named("lastfm_api_key") apikey: String): LastFmInterceptor = LastFmInterceptor(apikey)
 
-    @Reusable
     @Provides
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         lastFmInterceptor: LastFmInterceptor,
-        context: Context,
+        @ApplicationContext context: Context,
         @Named("cache") cache: File
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(lastFmInterceptor)
@@ -51,7 +50,6 @@ class NetworkModule {
         .cache(Cache(cache, 10 * 1024 * 1024))
         .build()
 
-    @Reusable
     @Provides
     fun provideLastFmServiceApi(
         @Named("base_url") baseUrl: String,

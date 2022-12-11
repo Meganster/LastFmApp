@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.fragment.app.viewModels
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.appsfactory.testtask.R
 import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenDetails
@@ -31,11 +32,13 @@ import com.appsfactory.testtask.ui.base.compose.BaseComposeFragment
 import com.appsfactory.testtask.ui.common.ContentItemsList
 import com.appsfactory.testtask.ui.common.Snackbar
 import com.appsfactory.testtask.ui.common.Toolbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class FavoriteAlbumsFragment : BaseComposeFragment<FavoriteAlbumsViewModel>() {
+@AndroidEntryPoint
+class FavoriteAlbumsFragment : BaseComposeFragment() {
 
-    override val classType = FavoriteAlbumsViewModel::class.java
+    override val viewModel: FavoriteAlbumsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)

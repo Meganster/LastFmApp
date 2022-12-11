@@ -12,6 +12,7 @@ import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenDetails
 import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenSearch
 import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +29,7 @@ sealed interface NavigationState {
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@HiltViewModel
 class FavoriteAlbumsViewModel @Inject constructor(
     private val localAlbumsRepository: LocalAlbumsRepository
 ) : BaseComposeViewModel() {

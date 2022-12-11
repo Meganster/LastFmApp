@@ -2,7 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdk buildConfig.compileSdk
@@ -85,10 +86,10 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
 
-    implementation "com.google.dagger:dagger-android:${versions.dagger}"
-    implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
-    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
-    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
+    implementation "com.google.dagger:hilt-android:${versions.hilt}"
+    kapt "com.google.dagger:hilt-compiler:${versions.hilt}"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:${versions.hilt}"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:${versions.hilt}"
 
     implementation "androidx.navigation:navigation-runtime-ktx:${versions.androidx.navigation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.androidx.navigation}"
@@ -112,4 +113,7 @@ dependencies {
 
     debugImplementation "androidx.compose.ui:ui-tooling:${versions.compose}"
     debugImplementation "androidx.compose.ui:ui-test-manifest:${versions.compose}"
+}
+kapt {
+    correctErrorTypes true
 }
