@@ -15,12 +15,14 @@ import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class SearchViewModel @Inject constructor(
     private val artistsInteractor: ArtistsInteractor
 ) : BaseComposeViewModel() {

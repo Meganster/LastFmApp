@@ -1,8 +1,6 @@
 package com.appsfactory.testtask.injector
 
 import androidx.lifecycle.ViewModel
-import com.appsfactory.testtask.ui.album.details.DetailsFragment
-import com.appsfactory.testtask.ui.album.details.DetailsViewModel
 import com.appsfactory.testtask.ui.album.favorite.FavoriteAlbumsFragment
 import com.appsfactory.testtask.ui.album.favorite.FavoriteAlbumsViewModel
 import com.appsfactory.testtask.ui.album.top.TopAlbumsFragment
@@ -31,9 +29,6 @@ internal abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun screenTopAlbums(): TopAlbumsFragment
 
-    @ContributesAndroidInjector
-    abstract fun screenDetails(): DetailsFragment
-
     @Binds
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
@@ -53,9 +48,4 @@ internal abstract class FragmentBuildersModule {
     @IntoMap
     @ViewModelKey(TopAlbumsViewModel::class)
     abstract fun provideTopAlbumsViewModel(viewModel: TopAlbumsViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(DetailsViewModel::class)
-    abstract fun provideDetailsViewModel(viewModel: DetailsViewModel): ViewModel
 }

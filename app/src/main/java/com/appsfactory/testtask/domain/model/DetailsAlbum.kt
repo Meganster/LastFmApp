@@ -1,8 +1,10 @@
 package com.appsfactory.testtask.domain.model
 
+import android.os.Parcelable
 import com.appsfactory.testtask.ui.common.BaseContentItem
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class DetailsAlbum(
     val imageUrl: String?,
     val mbid: String,
@@ -10,7 +12,7 @@ data class DetailsAlbum(
     val artist: Artist,
     val listeners: String,
     val tracks: List<Track>
-) : Serializable, BaseContentItem {
+) : Parcelable, BaseContentItem {
 
     fun generateId(): Long {
         return (name + artist).hashCode().toLong()
