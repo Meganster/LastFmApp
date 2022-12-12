@@ -12,10 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-//class ResourceCachingProvider<T>(val value: T? = null) {
-//
-//}
-
 class TopAlbumsInteractor @Inject constructor(
     private val remoteAlbumsRepository: RemoteAlbumsRepository,
     private val localAlbumsRepository: LocalAlbumsRepository
@@ -48,8 +44,9 @@ class TopAlbumsInteractor @Inject constructor(
     )
 
     fun topAlbumsArtist(artist: Artist, pageSize: Int): Flow<PagingData<Album>> {
-        // TODO check currentArtist and artist and remove cache if need
-        currentArtist = artist
+        if (currentArtist != artist) {
+            cache.invalidateCachedData()
+        }
 
         return Pager(PagingConfig(pageSize)) {
             TopAlbumsDataSource(
@@ -60,10 +57,12 @@ class TopAlbumsInteractor @Inject constructor(
     }
 
     fun loadDetailsAlbum(artist: Artist, album: Album): Flow<DetailsAlbum> {
+        if (currentAlbum != album || currentArtist != artist) {
+            cache.invalidateCachedData()
+        }
         currentArtist = artist
         currentAlbum = album
         return cache.getCurrentValue(false)
-        //return localAlbumsRepository.tryGetDetailsAlbum(album) ?: remoteAlbumsRepository.getDetailsAlbum(artist, album)
     }
 
     suspend fun isDetailsAlbumSavedLocally(album: Album): Boolean {

@@ -1,5 +1,8 @@
 package com.appsfactory.testtask.ui.album.favorite
 
+import androidx.compose.material.SnackbarResult
+import androidx.compose.material.SnackbarResult.ActionPerformed
+import androidx.compose.material.SnackbarResult.Dismissed
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -12,6 +15,7 @@ import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenDetails
 import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenSearch
 import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
+import com.appsfactory.testtask.utils.StringWrapper.StringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -63,18 +67,32 @@ class FavoriteAlbumsViewModel @Inject constructor(
     }
 
     fun onItemLongClicked(details: DetailsAlbum) {
-        showSnackbar(R.string.top_albums_start_processing, details.name)
-
-        defaultScope.launch {
-            localAlbumsRepository.deleteDetailsAlbum(details.name)
-            refreshItems()
-            showSnackbar(R.string.top_albums_delete_completed, details.name)
-        }
+        val description = SnackbarDescription(
+            text = StringResource(R.string.top_albums_start_deleting, details.name),
+            buttonTitle = StringResource(R.string.top_albums_undo_deleting),
+            onSnackbarAction = { onSnackbarAction(it, details) }
+        )
+        showSnackbar(description)
     }
 
     fun refreshItems() {
         defaultScope.launch {
             updateFavoriteAlbumsStateFlow.emit(Unit)
+        }
+    }
+
+    private fun onSnackbarAction(snackbarResult: SnackbarResult, details: DetailsAlbum) {
+        when (snackbarResult) {
+            Dismissed -> deleteDetailsAlbum(details)
+            ActionPerformed -> Timber.w("Abort details deleting")
+        }
+    }
+
+    private fun deleteDetailsAlbum(details: DetailsAlbum) {
+        defaultScope.launch {
+            localAlbumsRepository.deleteDetailsAlbum(details.name)
+            refreshItems()
+            showSnackbar(R.string.top_albums_delete_completed, details.name)
         }
     }
 

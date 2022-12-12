@@ -15,6 +15,8 @@
 
     <string name="top_albums_title">Albums of %s</string>
     <string name="top_albums_start_processing">Start processing %s</string>
+    <string name="top_albums_start_deleting">Start deleting %s</string>
+    <string name="top_albums_undo_deleting">Undo</string>
     <string name="top_albums_delete_completed">Delete completed for %s</string>
     <string name="top_albums_saving_completed">Saving completed for %s</string>
 

@@ -13,9 +13,14 @@ abstract class BaseComposeFragment : Fragment() {
 
     @Composable
     protected fun initSnackbarObserver(snackbarHostState: SnackbarHostState) {
-        viewModel.showSnackbar.Handler { snackBar ->
+        viewModel.showSnackbar.Handler { snackbar ->
             launch {
-                snackbarHostState.showSnackbar(snackBar.getValue(requireContext()))
+                val snackbarResult = snackbarHostState.showSnackbar(
+                    message = snackbar.text.getValue(requireContext()),
+                    actionLabel = snackbar.buttonTitle?.getValue(requireContext())
+                )
+
+                snackbar.onSnackbarAction?.invoke(snackbarResult)
             }
         }
     }

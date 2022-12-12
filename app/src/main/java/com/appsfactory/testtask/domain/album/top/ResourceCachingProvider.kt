@@ -4,7 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
@@ -28,9 +30,20 @@ internal class ResourceCachingProvider<T : Any>(
     @Volatile
     private var cachedDataState: State = State.UNINITIALIZED
 
-    private fun askForContentUpdate() = result ?: requestNewResult()
+    private fun askForContentUpdate() = result ?: requestResult()
 
-    private fun requestNewResult(): Flow<T> {
+    private fun requestResult(): Flow<T> {
+        return requestNewLocalResult()
+            .flatMapLatest {
+                if (it == null) {
+                    requestNewRemoteResult()
+                } else {
+                    flowOf(it)
+                }
+            }
+    }
+
+    private fun requestNewRemoteResult(): Flow<T> {
         return remoteDataProvider()
             .flowOn(Dispatchers.IO)
             .flatMapLatest {
@@ -38,6 +51,31 @@ internal class ResourceCachingProvider<T : Any>(
                 cachedDataState = State.FULL
                 item
             }
+            .map {
+                updateResult(it)
+            }
+    }
+
+    private fun requestNewLocalResult(): Flow<T?> {
+        return databaseGetter()
+            .flowOn(Dispatchers.IO)
+            .map {
+                if (it != null) {
+                    updateResult(it)
+                }
+
+                it
+            }
+    }
+
+    private fun updateResult(value: T): T {
+        if (result == null) {
+            result = MutableStateFlow(value)
+        } else {
+            result?.value = value
+        }
+
+        return value
     }
 
     fun invalidateCachedData() {
@@ -50,14 +88,12 @@ internal class ResourceCachingProvider<T : Any>(
 
     fun getCurrentValue(invalidateCache: Boolean = false): Flow<T> {
         return if (invalidateCache or shouldAskForUpdate) {
-            askForContentUpdate()
+            requestNewRemoteResult()
         } else {
-            if (cachedDataState == State.FULL) {
-                databaseGetter()
-                    .flowOn(Dispatchers.IO)
-                    .map { it!! }
-            } else {
-                askForContentUpdate()
+            when (cachedDataState) {
+                State.UNINITIALIZED -> askForContentUpdate()
+                State.FULL -> result!!.asStateFlow()
+                State.EMPTY -> requestResult()
             }
         }
     }
