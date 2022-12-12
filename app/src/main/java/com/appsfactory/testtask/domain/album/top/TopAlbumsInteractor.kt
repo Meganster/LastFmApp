@@ -9,10 +9,16 @@ import com.appsfactory.testtask.domain.model.Artist
 import com.appsfactory.testtask.domain.model.DetailsAlbum
 import javax.inject.Inject
 
+//class ResourceCachingProvider<T>(val value: T? = null) {
+//
+//}
+
 class TopAlbumsInteractor @Inject constructor(
     private val remoteAlbumsRepository: RemoteAlbumsRepository,
     private val localAlbumsRepository: LocalAlbumsRepository
 ) {
+
+//    val cache = ResourceCachingProvider(null)
 
     fun topAlbumsArtist(artist: Artist, pageSize: Int) = Pager(PagingConfig(pageSize)) {
         TopAlbumsDataSource(
@@ -22,6 +28,7 @@ class TopAlbumsInteractor @Inject constructor(
     }.flow
 
     suspend fun loadDetailsAlbum(artist: Artist, album: Album): DetailsAlbum {
+//        return cache.getDetailsAlbum()
         return localAlbumsRepository.tryGetDetailsAlbum(album) ?: remoteAlbumsRepository.getDetailsAlbum(artist, album)
     }
 
