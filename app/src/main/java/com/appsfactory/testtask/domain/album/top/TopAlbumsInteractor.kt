@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.appsfactory.testtask.data.repository.LocalAlbumsRepository
 import com.appsfactory.testtask.data.repository.RemoteAlbumsRepository
+import com.appsfactory.testtask.data.repository.ResourceCachingProvider
 import com.appsfactory.testtask.domain.model.Album
 import com.appsfactory.testtask.domain.model.Artist
 import com.appsfactory.testtask.domain.model.DetailsAlbum
@@ -17,13 +18,13 @@ class TopAlbumsInteractor @Inject constructor(
     private val localAlbumsRepository: LocalAlbumsRepository
 ) {
 
-    private lateinit var currentArtist: Artist
-    private lateinit var currentAlbum: Album
+    private var currentArtist: Artist? = null
+    private var currentAlbum: Album? = null
 
     private val cache = ResourceCachingProvider<DetailsAlbum>(
         databaseInserter = { detailsAlbum ->
             flow {
-                localAlbumsRepository.saveArtist(currentArtist)
+                localAlbumsRepository.saveArtist(currentArtist!!)
                 localAlbumsRepository.saveDetailsAlbum(detailsAlbum)
 
                 emit(detailsAlbum)
@@ -31,13 +32,13 @@ class TopAlbumsInteractor @Inject constructor(
         },
         databaseGetter = {
             flow {
-                val details = localAlbumsRepository.tryGetDetailsAlbum(currentAlbum)
+                val details = localAlbumsRepository.tryGetDetailsAlbum(currentAlbum!!)
                 emit(details)
             }
         },
         remoteDataProvider = {
             flow {
-                val details = remoteAlbumsRepository.getDetailsAlbum(currentArtist, currentAlbum)
+                val details = remoteAlbumsRepository.getDetailsAlbum(currentArtist!!, currentAlbum!!)
                 emit(details)
             }
         }

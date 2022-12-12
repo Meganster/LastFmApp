@@ -107,10 +107,8 @@ dependencies {
 
     androidTestImplementation "androidx.room:room-runtime:${versions.androidx.room}"
 
-    testImplementation "junit:junit:${versions.testing.junit}"
-    testImplementation "org.mockito.kotlin:mockito-kotlin:${versions.testing.mockito_kotlin}"
-    testImplementation "org.mockito.mockito-android:${versions.testing.mockito_android}"
-    testImplementation "org.mockito:mockito-core:${versions.testing.mockito_android}"
+    testImplementation("junit:junit:${versions.testing.junit}")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:${versions.testing.mockito_kotlin}")
 
     debugImplementation "androidx.compose.ui:ui-tooling:${versions.compose}"
     debugImplementation "androidx.compose.ui:ui-test-manifest:${versions.compose}"

@@ -1,10 +1,12 @@
-package com.appsfactory.testtask.domain.album.top
+package com.appsfactory.testtask.data.repository
 
+import com.appsfactory.testtask.data.repository.ResourceCachingProvider.State.EMPTY
+import com.appsfactory.testtask.data.repository.ResourceCachingProvider.State.FULL
+import com.appsfactory.testtask.data.repository.ResourceCachingProvider.State.UNINITIALIZED
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
@@ -28,7 +30,7 @@ internal class ResourceCachingProvider<T : Any>(
     private var shouldAskForUpdate = false
 
     @Volatile
-    private var cachedDataState: State = State.UNINITIALIZED
+    private var cachedDataState: State = UNINITIALIZED
 
     private fun askForContentUpdate() = result ?: requestResult()
 
@@ -48,7 +50,7 @@ internal class ResourceCachingProvider<T : Any>(
             .flowOn(Dispatchers.IO)
             .flatMapLatest {
                 val item = databaseInserter(it)
-                cachedDataState = State.FULL
+                cachedDataState = FULL
                 item
             }
             .map {
@@ -83,7 +85,7 @@ internal class ResourceCachingProvider<T : Any>(
     }
 
     fun clearState() {
-        cachedDataState = State.EMPTY
+        cachedDataState = EMPTY
     }
 
     fun getCurrentValue(invalidateCache: Boolean = false): Flow<T> {
@@ -91,9 +93,9 @@ internal class ResourceCachingProvider<T : Any>(
             requestNewRemoteResult()
         } else {
             when (cachedDataState) {
-                State.UNINITIALIZED -> askForContentUpdate()
-                State.FULL -> result!!.asStateFlow()
-                State.EMPTY -> requestResult()
+                UNINITIALIZED,
+                FULL -> askForContentUpdate()
+                EMPTY -> requestResult()
             }
         }
     }
