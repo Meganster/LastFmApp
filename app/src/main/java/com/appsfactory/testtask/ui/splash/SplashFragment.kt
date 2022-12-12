@@ -4,15 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.appsfactory.testtask.R
 import com.appsfactory.testtask.databinding.FragmentSplashBinding
 import com.appsfactory.testtask.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
+@AndroidEntryPoint
+class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     override lateinit var binding: FragmentSplashBinding
-    override val classType = SplashViewModel::class.java
+    override val viewModel: SplashViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -27,9 +34,13 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
     }
 
     private fun initObservers() {
-        viewModel.isAuthSucceeded.observe(viewLifecycleOwner) {
-            it.take()?.let {
-                findNavController().navigate(R.id.action_screenSplash_to_screenFavoriteAlbums)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isAuthSucceeded.collect { event ->
+                    event?.take()?.let {
+                        findNavController().navigate(R.id.action_screenSplash_to_screenFavoriteAlbums)
+                    }
+                }
             }
         }
     }

@@ -9,12 +9,6 @@ import com.appsfactory.testtask.db.entity.ArtistEntity
 @Dao
 interface ArtistDao {
 
-    @Query("DELETE FROM artists")
-    suspend fun deleteAll()
-
-    @Query("DELETE FROM artists WHERE name = :artistName")
-    suspend fun deleteAllForArtist(artistName: String)
-
     @Query("SELECT * FROM artists WHERE name = :artistName")
     suspend fun getArtistsByName(artistName: String): ArtistEntity?
 

@@ -22,18 +22,21 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.appsfactory.testtask.R
 import com.appsfactory.testtask.ui.base.compose.BaseComposeFragment
 import com.appsfactory.testtask.ui.common.ContentItemsList
 import com.appsfactory.testtask.ui.common.Snackbar
 import com.appsfactory.testtask.ui.common.Toolbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
-class SearchFragment : BaseComposeFragment<SearchViewModel>() {
+@AndroidEntryPoint
+class SearchFragment : BaseComposeFragment() {
 
-    override val classType = SearchViewModel::class.java
+    override val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)

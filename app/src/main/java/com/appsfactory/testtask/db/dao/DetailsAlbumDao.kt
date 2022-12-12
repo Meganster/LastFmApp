@@ -15,9 +15,6 @@ interface DetailsAlbumDao {
     @Query("SELECT *  FROM details_album WHERE album_name = :albumName")
     suspend fun getDetailsAlbum(albumName: String): DetailsAlbumEntity?
 
-    @Query("SELECT *  FROM details_album")
-    suspend fun getAll(): List<DetailsAlbumEntity>?
-
     @Query("SELECT *  FROM details_album LIMIT :limit OFFSET :offset")
     suspend fun getByPage(limit: Int, offset: Int): List<DetailsAlbumEntity>?
 

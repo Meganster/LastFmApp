@@ -1,7 +1,8 @@
 package com.appsfactory.testtask.ui.album.favorite
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
+import androidx.compose.material.SnackbarResult
+import androidx.compose.material.SnackbarResult.ActionPerformed
+import androidx.compose.material.SnackbarResult.Dismissed
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -14,9 +15,12 @@ import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenDetails
 import com.appsfactory.testtask.ui.album.favorite.NavigationState.OpenSearch
 import com.appsfactory.testtask.ui.base.compose.BaseComposeViewModel
 import com.appsfactory.testtask.utils.Effect
-import com.appsfactory.testtask.utils.Event
+import com.appsfactory.testtask.utils.StringWrapper.StringResource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
@@ -29,6 +33,7 @@ sealed interface NavigationState {
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@HiltViewModel
 class FavoriteAlbumsViewModel @Inject constructor(
     private val localAlbumsRepository: LocalAlbumsRepository
 ) : BaseComposeViewModel() {
@@ -39,14 +44,15 @@ class FavoriteAlbumsViewModel @Inject constructor(
     }
     private val defaultScope = viewModelScope + defaultExceptionHandler
 
-    private val updateFavoriteAlbumsLiveData = MutableLiveData<Event<Unit>>()
+    private val updateFavoriteAlbumsStateFlow = MutableStateFlow<Unit?>(null)
 
-    val favoriteDetailsAlbum = updateFavoriteAlbumsLiveData
-        .asFlow()
+    val favoriteDetailsAlbum = updateFavoriteAlbumsStateFlow
         .flatMapLatest {
-            Pager(PagingConfig(DEFAULT_PAGE_SIZE)) {
-                FavoriteAlbumsDataSource(localAlbumsRepository, DEFAULT_PAGE_SIZE)
-            }.flow
+            it?.let {
+                Pager(PagingConfig(DEFAULT_PAGE_SIZE)) {
+                    FavoriteAlbumsDataSource(localAlbumsRepository, DEFAULT_PAGE_SIZE)
+                }.flow
+            } ?: emptyFlow()
         }
         .cachedIn(defaultScope)
 
@@ -61,17 +67,33 @@ class FavoriteAlbumsViewModel @Inject constructor(
     }
 
     fun onItemLongClicked(details: DetailsAlbum) {
-        showSnackbar(R.string.top_albums_start_processing, details.name)
+        val description = SnackbarDescription(
+            text = StringResource(R.string.top_albums_start_deleting, details.name),
+            buttonTitle = StringResource(R.string.top_albums_undo_deleting),
+            onSnackbarAction = { onSnackbarAction(it, details) }
+        )
+        showSnackbar(description)
+    }
 
+    fun refreshItems() {
+        defaultScope.launch {
+            updateFavoriteAlbumsStateFlow.emit(Unit)
+        }
+    }
+
+    private fun onSnackbarAction(snackbarResult: SnackbarResult, details: DetailsAlbum) {
+        when (snackbarResult) {
+            Dismissed -> deleteDetailsAlbum(details)
+            ActionPerformed -> Timber.w("Abort details deleting")
+        }
+    }
+
+    private fun deleteDetailsAlbum(details: DetailsAlbum) {
         defaultScope.launch {
             localAlbumsRepository.deleteDetailsAlbum(details.name)
             refreshItems()
             showSnackbar(R.string.top_albums_delete_completed, details.name)
         }
-    }
-
-    fun refreshItems() {
-        updateFavoriteAlbumsLiveData.value = Event(Unit)
     }
 
     companion object {

@@ -1,10 +1,12 @@
 package com.appsfactory.testtask
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

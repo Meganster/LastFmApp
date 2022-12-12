@@ -1,14 +1,16 @@
 package com.appsfactory.testtask.domain.model
 
+import android.os.Parcelable
 import com.appsfactory.testtask.ui.common.BaseContentItem
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Album(
     val imageUrl: String?,
     val mbid: String?,
     val name: String,
     val artist: Artist
-) : Serializable, BaseContentItem {
+) : Parcelable, BaseContentItem {
 
     override fun getTitle(): String = name
 

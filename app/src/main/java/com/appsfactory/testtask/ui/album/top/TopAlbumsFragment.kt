@@ -18,18 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.appsfactory.testtask.R
 import com.appsfactory.testtask.ui.base.compose.BaseComposeFragment
 import com.appsfactory.testtask.ui.common.ContentItemsList
 import com.appsfactory.testtask.ui.common.Snackbar
 import com.appsfactory.testtask.ui.common.Toolbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class TopAlbumsFragment : BaseComposeFragment<TopAlbumsViewModel>() {
+@AndroidEntryPoint
+class TopAlbumsFragment : BaseComposeFragment() {
 
-    override val classType = TopAlbumsViewModel::class.java
-
+    override val viewModel: TopAlbumsViewModel by viewModels()
     private lateinit var params: TopAlbumsFragmentArgs
 
     override fun onCreate(savedInstanceState: Bundle?) {
