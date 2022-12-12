@@ -50,8 +50,9 @@ class TopAlbumsViewModel @Inject constructor(
 
     fun onAlbumClicked(album: Album) {
         defaultScope.launch {
-            val detailsAlbum = topAlbumsInteractor.loadDetailsAlbum(artistStateFlow.value!!, album)
-            navigation.set(detailsAlbum)
+            topAlbumsInteractor.loadDetailsAlbum(artistStateFlow.value!!, album).collect {
+                navigation.set(it)
+            }
         }
     }
 
